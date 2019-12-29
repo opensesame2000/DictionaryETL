@@ -19,7 +19,7 @@ def convert_csv_to_wmlist(file):
         meaningsl = []
         wmdict1 = {}
         values = line.split("\t")
-        word = values[0]
+        word = values[0].strip()
         data = values[1].strip()
         if (data.find(";")):
             data = data.split(";")
@@ -43,7 +43,7 @@ def get_list_of_mdicts(mlistrow):
         md["Example"] = "None"
         md["Qualifier"] = "None"
         md["Source"] = "தமிழ் - தமிழ் அகர முதலி"
-        #print(mlistrow[i])
+        print(mlistrow[i])
         md["Meaning"] = mlistrow[i]
         mlist.append(md)
     return mlist
@@ -70,7 +70,7 @@ def get_json_file(jdata):
         json.dump(jdata, f, ensure_ascii=False, indent=4)
 
 if __name__ == '__main__':
-    templist = convert_csv_to_wmlist("aah.csv")
+    templist = convert_csv_to_wmlist("input.csv")
     res_json = get_json(templist)
     get_json_file(res_json)
 
