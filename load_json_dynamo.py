@@ -1,6 +1,7 @@
 # coding=utf-8
 import boto3
 import json
+import time
 
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 dbtable = dynamodb.Table('tester')
@@ -9,10 +10,15 @@ dbtable = dynamodb.Table('tester')
 def batch_write():
     with open("data.json") as json_file:
         lexemes = json.load(json_file)
+        start = time.time()
 
         with dbtable.batch_writer() as batch:
             for lexeme in lexemes:
                 batch.put_item(Item = lexeme)
+
+        end = time.time()
+        elapsed = end - start
+        print(time.strftime("%H:%M:%S", time.gmtime(elapsed)))
 
 
 def seq_write():
@@ -29,4 +35,6 @@ def seq_write():
 
 if __name__ == '__main__':
    batch_write()
+
+
 
